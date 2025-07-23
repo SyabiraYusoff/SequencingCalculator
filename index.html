@@ -19,7 +19,7 @@
       <main>
         <div class="user-main-input">
           <!-- Quick Instruction section -->
-         
+        
           <details>
             <summary style="padding: 0px 0 5px 10px; font-size: 20px; color:#004593;"><b>Quick Instruction</b></summary>
             <p>
@@ -233,14 +233,26 @@
                 <li>R2: 50 cycles</li>
                 <li>Index 1: 8 cycles</li>
                 <li>Index 2: 60 cycles</li>
-              </ul> <br> 
-            Our general recommendation is a loading concentration of 12-14 pM. We recommended including 1-3% PhiX. </li>
+              </ul> 
+            Our general recommendation is a loading concentration of 12-14 pM. We recommended including 1-3% PhiX. </li><br> 
+            <li><b>For WTA Libraries Only:  </b> If you are sequencing only WTA libraries, the configuration is slightly different: 
+              <ul>
+                <li>R1: 51 cycles</li>
+                <li>R2: 71 cycles</li>
+                <li>Index 1: 8 cycles</li>
+                <li>Index 2: 60 cycles</li>
+              </ul>
+            Our general recommendation is a loading concentration of 10-14 pM. We recommended including 1-3% PhiX.  </li>
             </ul>
-          </details> <br>
+            <p>By following these configurations, you can ensure that your sequencing runs smoothly and yields high-quality data. 
+              If you have any questions or need further assistance, please don't hesitate to reach out to our support team. </p>
+          </details><br>
 
           <!-- Sample Sheet -->
             <details>
             <summary style="padding: 0px 0 5px 10px; font-size: 20px; color:#004593;"><b> Sample Sheet Specifications </b></summary>
+            <img src="sampleSheet.png" width="80%">
+
           </details>
 
           <br>
@@ -275,7 +287,7 @@
             <button onclick="showSections()" class="primary-button">Submit</button>
           </div>
         </div>
-       
+      
           <div class="submitInfoDisplay" id="mainFormSubmitMessage" style="display:none">
             <p><b>User Info Submitted:</b> <br></p>
           </div>
@@ -283,7 +295,7 @@
           <div id="tableContainer" class="user-main-input"  style="display: none;">
             <p><b>Please consult your sequencing provider for the Final Library Concentration and Volume needed to send for sequencing. Use the details as input below.</b></p>
             <div class="form-group">
-             
+            
             <label for="finalLibConc">Final library Concentration (nM):</label>
             <input type="number" id="finalLibConc" class="input-field" placeholder="Pooled library concentration">
             <span style="font-size:15px;color:darkred;" class="input-details"><b>Required</b>: In general: 4 nM</span>
@@ -343,7 +355,7 @@
                 </thead>
                   <tbody id="userInputRows"></tbody>
             </table>
-       
+      
 
         <table id="libraryDilutionTable">
           <caption>Library Dilution and Pooling Volume</caption>
@@ -390,7 +402,7 @@
     </div>
 
     <footer>
-      <p style="font-size:10px;">
+      <p style="font-size:14px;">
         Developer: Syabira Yusoff | Bioinformatics Support Engineer <br />
         <a href="mailto:syabira.yusoff@bd.com">syabira.yusoff@bd.com</a><br />
         General Support: Maryam Rezaei | SCM Application Support Associate<br>
