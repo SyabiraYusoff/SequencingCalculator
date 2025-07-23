@@ -16,3 +16,13 @@ This web-based tool helps users calculate sequencing requirements for BD Rhapsod
   - Tooltips and info buttons for each table column and assay type.
 
 
+## Version 3.0.0
+
+- **Features**  
+  - Adding sample sheet recommendation table 
+  - Adding AVITI sequencing recommendation
+  - Adding feedback form 
+
+- **Bugs/fixes**  
+  - The correction factor for NovaSeqX and AVITI for TCR is the same 
+  - Tooltips and info buttons for each table column and assay type.

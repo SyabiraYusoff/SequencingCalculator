@@ -13,7 +13,7 @@
         <div class="header-text">
           <h1 class="header-main-title" >Sequencing Calculator</h1>
         <p class="header-title"> For BD Rhapsody&trade; Libraries</p>
-       </div>
+      </div>
       </header>
 
       <main>
@@ -61,8 +61,8 @@
           <br>
 
           <!-- Sequencing library and recommended length information -->
-           
-           <details>
+          
+          <details>
             <summary style="padding: 0px 0 20px 10px; font-size: 20px;color:#004593;"><b>BD Rhapsody Library Information</b></summary>
             <p>This section will show table for sequencing recommendation with Rhaspsody library, as well as the read structure and reads requirements. Please note this might be different when you are using Beads Version1. Please consult your local FAS for recommendation for Bead Version 1.</p>
 
@@ -218,7 +218,32 @@
                 </tr>
               </table>
               <br><br>
-           </details>
+          </details>
+
+          <!-- AVITI recommendation -->
+            <details>
+            <summary style="padding: 0px 0 5px 10px; font-size: 20px; color:#004593;"><b> AVITI sequencing recommendation </b></summary>
+            <h4>Understanding the Setup: </h4>
+            <p>The setup for AVITI sequencing is similar to the Illumina setup. It's important to follow the specific configurations to achieve accurate and efficient sequencing.</p>
+            <h4>AVITI Setup Configuration: </h4>
+            <ul>
+              <li><b>For ATAC+WTA Libraries: </b> When sequencing ATAC (Assay for Transposase-Accessible Chromatin) and WTA (Whole Transcriptome Amplification) libraries together on the AVITI platform, use the following configuration: 
+              <ul>
+                <li>R1: 50 cycles</li>
+                <li>R2: 50 cycles</li>
+                <li>Index 1: 8 cycles</li>
+                <li>Index 2: 60 cycles</li>
+              </ul> <br> 
+            Our general recommendation is a loading concentration of 12-14 pM. We recommended including 1-3% PhiX. </li>
+            </ul>
+          </details> <br>
+
+          <!-- Sample Sheet -->
+            <details>
+            <summary style="padding: 0px 0 5px 10px; font-size: 20px; color:#004593;"><b> Sample Sheet Specifications </b></summary>
+          </details>
+
+          <br>
         </div>
 
         <div class="user-main-input">
@@ -238,7 +263,7 @@
           </div>
             <br>
             <input type="checkbox" class="input-box" id="novaseq" onclick="showNovaseqMessage()">
-            <label for="novaseq">I am planning to use NovaSeqX sequencer</label><br>        
+            <label for="novaseq">I am planning to use NovaSeqX / AVITI sequencer</label><br>        
 
             <div id="novaseqMessage" style="display:none;">
               <p style="font-size:15px;color:darkred;"><ul>
@@ -355,23 +380,22 @@
           </table>
           <p>NovaSeq 100 cycle kit (v1.0 or v1.5) can be used. The 100-cycle kit contains enough reagents for up to 130 cycles.</p>
 
-
-
-          <button class="primary-button" onclick="copySectionsAsHTML(['resultsContainer','recommendationContainer'])">Copy Results and Paste to Excel File</button>
+          <h3> We would love your feedback!</h3>
+          <iframe src="https://forms.office.com/Pages/ResponsePage.aspx?id=fObDlC2eAEimt2Ndl4ghZdbP3rXs1MlBqgcjSqm_1-VUMzA4UUhZQ0ZBMFk3SUg0OUFBSFRFSUNOSS4u&embed=true" frameborder="0" marginwidth="0" marginheight="0" style="border: none; width:100%; height:25vh" allowfullscreen webkitallowfullscreen mozallowfullscreen msallowfullscreen> </iframe>
+          <button class="primary-button" onclick="copySectionsAsHTML(['resultsContainer','recommendationContainer'])">Copy Your Results and Paste to Excel File</button>
         </div>
 
         <script src="script.js" ></script>
       </main>
-
-     
     </div>
+
     <footer>
       <p style="font-size:10px;">
         Developer: Syabira Yusoff | Bioinformatics Support Engineer <br />
         <a href="mailto:syabira.yusoff@bd.com">syabira.yusoff@bd.com</a><br />
         General Support: Maryam Rezaei | SCM Application Support Associate<br>
         <a href="mailto:maryam.rezaei@bd.com">maryam.rezaei@bd.com</a><br>
-        Project(version) : Sequencing Calculator (Version2.0) | April 2025
+        Sequencing Calculator (Version2.0) | April 2025
       </p>
     </footer>
   </body>
