@@ -19,13 +19,12 @@ This web-based tool helps users calculate sequencing requirements for BD Rhapsod
   - All rows for input table can now be removed.
 
 
-## Version 3.0.0
+## Version 2.1.0 (Minor update)
 
 - **Features**  
   - Added sample sheet recommendation table.
   - Included AVITI sequencing recommendations.
   - Added feedback form.
-  - ATAC libraries can now be pooled with [missing info].
 
 - **Bugs/fixes**  
   - Unified correction factor for NovaSeqX and AVITI for VDJ.
