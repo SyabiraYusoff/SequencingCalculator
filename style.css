@@ -8,7 +8,7 @@ body .header {
     padding: 0.625rem 0 0.625rem 0; 
     margin: 0.625rem 0 1.25rem 0;
     height: auto;
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     color: white;
     background-color: #044ED7;
 }
@@ -234,15 +234,14 @@ h3, strong {
 }
 
 footer {
-    background-color: #060A3D;
-    color: white;
+    color: #060A3D;
     text-align: center;
     padding: 5px;
     width: 100%;
 }
 
 a {
-    color: white;
+    color: #044ED7;
 }
 
 

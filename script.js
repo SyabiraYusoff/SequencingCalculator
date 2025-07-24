@@ -1,7 +1,7 @@
 function showNovaseqMessage() {
   const novaseqMessage = document.getElementById("novaseqMessage");
   novaseqMessage.style.display = "block";
-  console.log('User have specified using NovaSeqX. The VDJ correction factor will be by default to 1')
+  console.log('User have specified using NovaSeqX/AVITI. The VDJ correction factor will be by default to 1')
 }
 
 function deleteRow(r) {
@@ -36,6 +36,7 @@ if (userNameInput.value) {
     <li>Plexity: ${plexity.value}</li></ul></p>
     <p>Please enter the desired Final Library Concentration and Total Pooling Volume below.</p>
     <p>Enter your Library Name and select your assay details. The info button will provide you with the recommended values for Qubit, Bioanalyzer, Cell Number, and Reads per Cell as guidance.</p>
+    <p>If you want to pool ATAC and WTA library together, please consult with your local FAS. </p>
     `;
 
     //parse number of plexity input and create a table with a dropdown value. 
@@ -495,7 +496,7 @@ function submit() {
     tableMessage.style.display = "block";
     const novaSeqCheckbox = document.getElementById("novaseq");
     if (novaSeqCheckbox.checked) {
-        tableMessage.innerHTML += `<p>User checked the NovaSeq option. The <b>Correction Factor:</b> for TCR/BCR library pooling is set to 1</p>`;
+        tableMessage.innerHTML += `<p>User intent to use NovaSeq/AVITI. The <b>Correction Factor:</b> for TCR/BCR library pooling is set to 1</p>`;
     }
 
     rowsData.length = 0; // clear the array
@@ -527,8 +528,6 @@ function submit() {
     const totalPhix = (rowsData[0].totalReadPairsForSequencing + phix);
 
     filterTableByValue(totalPhix);
-
-    
 }
 
 
