@@ -2,10 +2,6 @@ body .header {
     font-family: FS Albert Pro, Helvetica, Arial, Verdana, sans-serif;
 }
 
-.wrapper {
-    margin-bottom: 100px;
-}
-
 .header {
     display: flex; 
     align-items: center;
