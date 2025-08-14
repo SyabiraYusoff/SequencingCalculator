@@ -275,11 +275,20 @@
           </div>
             <br>
             <input type="checkbox" class="input-box" id="novaseq" onclick="showNovaseqMessage()">
-            <label for="novaseq">I am planning to use NovaSeqX / AVITI sequencer</label><br>        
+            <label for="novaseq">I am planning to use NovaSeqX sequencer</label> <br>
+
+            <input type="checkbox" class="input-box" id="aviti" onclick="showAvitiMessage()">
+            <label for="aviti">I am planning to use AVITI sequencer</label><br>      
 
             <div id="novaseqMessage" style="display:none;">
               <p style="font-size:15px;color:darkred;"><ul>
                 <li>Please contact Illumina support or your <a href="mailto:emea_scmo_support@bd.com">local FAS</a> for the best index combination strategy and recommendation. </li>
+                <li>Enabling this box would affect the library pooling for TCR/BCR assays calculation.</li>
+              </ul> </p>
+            </div>
+            <div id="avitiMessage" style="display:none;">
+              <p style="font-size:15px;color:darkred;"><ul>
+                <li>Please refer to AVITI sequencing recommendation above.</li>
                 <li>Enabling this box would affect the library pooling for TCR/BCR assays calculation.</li>
               </ul> </p>
             </div>
@@ -293,7 +302,14 @@
           </div>
           
           <div id="tableContainer" class="user-main-input"  style="display: none;">
-            <p><b>Please consult your sequencing provider for the Final Library Concentration and Volume needed to send for sequencing. Use the details as input below.</b></p>
+            <div style="background-color: ghostwhite; margin-bottom: 10px; padding: 20px; border-radius: 5px;">
+            <p ><b>!! Please read carefully !!</b>
+              <ul>
+                <li>Consult your sequencing provider for the required final library concentration and volume.</li>
+                <li>ATAC libraries cannot be pooled with other libraries on Illumina sequencers.</li>
+                <li>On AVITI sequencers, ATAC libraries can be pooled with SMK and WTA. Contact your local FAS for details.</li>
+                <li>Avoid pooling greater than 60% total BD AbSeq or OMICS-One protein panel in final sequencing pool as it may impact sequencing quality of Targeted mRNA libraries.</li>
+              </ul></p></div>
             <div class="form-group">
             
             <label for="finalLibConc">Final library Concentration (nM):</label>
@@ -390,7 +406,12 @@
             </thead>
             <tbody id="recommendationRows"/>
           </table>
-          <p>NovaSeq 100 cycle kit (v1.0 or v1.5) can be used. The 100-cycle kit contains enough reagents for up to 130 cycles.</p>
+          <p><strong>Note:</strong>
+            <ul>
+              <li>** These Illumina sequencers use the reverse complement workflow for the i5, which may not be compatible with WTA library if index 2 is sequenced at 60 cycles, and may cause reduction in sequencing quality or even failure. Please contact your local FAS for more information. </li>
+              <li>***NovaSeq 100 cycle kit (v1.0 or v1.5) can be used. The 100-cycle kit contains enough reagents for up to 130 cycles.</li>
+              
+            </ul></p>
 
           
           <button class="primary-button" onclick="copySectionsAsHTML(['resultsContainer','recommendationContainer'])">Copy Your Results and Paste to Excel File</button>
@@ -409,7 +430,7 @@
         <a href="mailto:syabira.yusoff@bd.com">syabira.yusoff@bd.com</a><br />
         General Support: Maryam Rezaei | SCM Application Support Associate<br>
         <a href="mailto:maryam.rezaei@bd.com">maryam.rezaei@bd.com</a><br>
-        Sequencing Calculator (Version2.1.0) | July 2025
+        Sequencing Calculator (Version3.0.0) | August 2025
       </p>
     </footer>
   </body>
