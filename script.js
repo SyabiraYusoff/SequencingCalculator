@@ -1,7 +1,25 @@
 function showNovaseqMessage() {
   const novaseqMessage = document.getElementById("novaseqMessage");
-  novaseqMessage.style.display = "block";
-  console.log('User have specified using NovaSeqX. The VDJ correction factor will be by default to 1')
+  const novaseqCheckbox = document.getElementById("novaseq");
+  if (novaseqCheckbox.checked) {
+    novaseqMessage.style.display = "block";
+    console.log('User have specified using NovaSeqX. The VDJ correction factor will be by default to 1');
+  } else {
+    novaseqMessage.style.display = "none";
+    console.log('NovaSeqX checkbox unticked, hiding message.');
+  }
+}
+
+function showAvitiMessage() {
+  const avitiMessage = document.getElementById("avitiMessage");
+  const avitiCheckbox = document.getElementById("aviti");
+  if (avitiCheckbox.checked) {
+    avitiMessage.style.display = "block";
+    console.log('User have specified using AVITI. The VDJ correction factor will be by default to 1');
+  } else {
+    avitiMessage.style.display = "none";
+    console.log('AVITI checkbox unticked, hiding message.');
+  }
 }
 
 function deleteRow(r) {
@@ -36,6 +54,7 @@ if (userNameInput.value) {
     <li>Plexity: ${plexity.value}</li></ul></p>
     <p>Please enter the desired Final Library Concentration and Total Pooling Volume below.</p>
     <p>Enter your Library Name and select your assay details. The info button will provide you with the recommended values for Qubit, Bioanalyzer, Cell Number, and Reads per Cell as guidance.</p>
+    <p>If you want to pool ATAC and WTA library together, please consult with your local FAS. </p>
     `;
 
     //parse number of plexity input and create a table with a dropdown value. 
@@ -127,7 +146,6 @@ const assayInfo = {
         "infof": "Bioanalyzer/TapeStation: Library size  ~200-1000bp",
         "infoh": "Recommended(50,000rpc)"
     },
-    // Add more assay info as needed
 };
 
 //extract column index to match the array above
@@ -135,7 +153,7 @@ const columnIndex = buttonId.slice(-1);
           return assayInfo[assay][`info${columnIndex}`] || "No info available";
       }
 
-let selectedAssayType = null; //global var to track currently selected assay 
+let selectedAssayType = null; 
 function assayAvailability(row) {
 let assayDropdown = document.getElementById(`input${row}b`); 
 let selectedAssay = assayDropdown.value;
@@ -157,22 +175,6 @@ infoButtons.forEach(button => {
 button.setAttribute('data-info', getAssayInfo(selectedAssay, button.id));
 });
 
-
-//disable or enable assay based on current selection
-document.querySelectorAll("select[id^='input']").forEach((select, index) => {
-  if (index +1 !== row){ 
-    Array.from(select.options).forEach((option) => {
-      if (selectedAssayType === "assay-atac") {
-        option.disabled = option.value !== "assay-atac" && option.value !== "";
-      } else if (selectedAssayType && selectedAssayType !== "assay-atac") {
-        option.disabled = option.value === "assay-atac";
-      } else {
-        option.disabled = false;
-      }
-    });
-  }
-});
-console.log(`selected Assay for row ${row}:`, selectedAssay);
 }
 
 function calculateValues(rowsData) {
@@ -208,11 +210,16 @@ function specifyCorrectionFactor(rowsData) {
 specifyCorrectionFactor(rowsData);
 
 const novaSeqCheckbox = document.getElementById("novaseq");
+const avitiCheckbox = document.getElementById("aviti");
 let correctionFactor = 1;
 
 novaSeqCheckbox.addEventListener('change', function() {
   correctionFactor = novaSeqCheckbox.checked ? 1 : globalCorrectionFactor;
   console.log("Correction factor after assessing if user tick NovaSeqX box", correctionFactor);
+});
+  avitiCheckbox.addEventListener('change', function() {
+  correctionFactor = avitiCheckbox.checked ? 1 : globalCorrectionFactor;
+  console.log("Correction factor after assessing if user tick AVITI box", correctionFactor);
 });
 
 //For each row calculation
@@ -223,9 +230,9 @@ rowsData.forEach((input) => {
     input.correctionFactor = parseFloat(correctionFactor);
   }
   
-  if (novaSeqCheckbox.checked) {
+  if (novaSeqCheckbox.checked || avitiCheckbox.checked) {
     correctionFactor = 1;
-    console.log(`NovaSeq checked: ${input.assayName}, ${correctionFactor}`);
+    console.log(`NovaSeq or AVITI checked: ${input.assayName}, ${correctionFactor}`);
     input.correctionFactor = correctionFactor;
   } else if (input.assayName !== "assay-tcr" && input.assayName !== "assay-bcr") {
     correctionFactor = 1;
@@ -407,31 +414,42 @@ function filterTableByValue(threshold) {
     rows.innerHTML = "";
 
     const novaSeqCheckbox = document.getElementById("novaseq");
+    const avitiCheckbox = document.getElementById("aviti");
     const allRows = [
-        { platform: "Miniseq Mid Output", cycle: "300", pairs: 7, concentration: "1.4-1.8pM" },
-        { platform: "Miseq Reagent kit v2", cycle: "300, 500", pairs: 12, concentration: "contact local FAS" },
-        { platform: "Miniseq High Output", cycle: "150, 300", pairs: 22, concentration: "1.4-1.8pM" },
-        { platform: "Miseq Reagent kit v3", cycle: "150, 600", pairs: 22, concentration: "contact local FAS" },
-        { platform: "NextSeq 1000/2000 P1", cycle: "300", pairs: 100, concentration: "contact local FAS" },
-        { platform: "NextSeq 550 Mid Output", cycle: "150, 300", pairs: 130, concentration: "1.4-1.8pM" },
-        { platform: "HiSeq 4000 (Single Lane)", cycle: "150, 300", pairs: 313, concentration: "contact local FAS" },
-        { platform: "NovaSeq 6000 S Prime (Single Lane)", cycle: "100, 200, 300, 500 ***", pairs: 325, concentration: "180-250pM (XP workflow)" },
-        { platform: "NextSeq 550 High Output", cycle: "150, 300", pairs: 400, concentration: "1.4-1.8pM" },
-        { platform: "NextSeq 1000/2000 P2", cycle: "200, 300", pairs: 400, concentration: "contact local FAS" },
-        { platform: "NovaSeq 6000 S Prime (Single Flow Cell)", cycle: "100, 200, 300, 500 ***", pairs: 650, concentration: "350-650 pM (standard workflow)" },
-        { platform: "NovaSeq 6000 S1 (Single Lane)", cycle: "100, 200, 500 ***", pairs: 650, concentration: "180-250pM (XP workflow)" },
-        { platform: "NextSeq 2000 P3", cycle: "200, 300", pairs: 1200, concentration: "contact local FAS" },
-        { platform: "NovaSeq 6000 S1 (Single Flow Cell)", cycle: "100, 200, 300 ***", pairs: 1300, concentration: "350-650 pM (standard workflow)" },
-        { platform: "NovaSeq 6000 S4 (Single Lane)", cycle: "200, 300", pairs: 2000, concentration: "180-250pM (XP workflow)" },
-        { platform: "HiSeq 4000 (Single Flow Cell)", cycle: "150, 300", pairs: 2500, concentration: "contact local FAS" },
-        { platform: "NovaSeq 6000 S2 (Single Flow Cell)", cycle: "100, 200, 300 ***", pairs: 3300, concentration: "350-650 pM (standard workflow)" },
-        { platform: "NovaSeq 6000 S4 (Single Flow Cell)", cycle: "200, 300", pairs: 8000, concentration: "350-650 pM (standard workflow)" },
-        { platform: "NovaSeq X 10B", cycle: "200, 300", pairs: 10000, concentration: "contact local FAS" }
+        { platform: "Illumina Miniseq Mid Output", cycle: "300 (2x150)", pairs: 7, concentration: "1.5-1.8pM" },
+        { platform: "Illumina Miniseq High Output", cycle: "300 (2x150)", pairs: 22, concentration: "1.4-1.8pM" },
+        { platform: "MiSeq i100", cycle: "300 (2x150)", pairs: 5, concentration: "contact local FAS" },
+        { platform: "Illumina MiSeq i100 Plus", cycle: "300 (2x150)", pairs: 50, concentration: "contact local FAS" },
+        { platform: "Illumina Miseq Reagent kit v2", cycle: "300(2x150), 500(2x250)", pairs: 12, concentration: "contact local FAS" },
+        { platform: "Illumina Miseq Reagent kit v3", cycle: "600(2x300)", pairs: 22, concentration: "contact local FAS" },
+        { platform: "Illumina NextSeq 550 Mid Output **", cycle: "300(2x150)", pairs: 130, concentration: "1.4-1.8pM" },
+        { platform: "Illumina NextSeq 550 High Output **", cycle: "300(2x150)", pairs: 400, concentration: "1.4-1.8pM" },
+        { platform: "Illumina NextSeq 1000/2000 P1 **", cycle: "300", pairs: 100, concentration: "contact local FAS" },
+        { platform: "Illumina NextSeq 1000/2000 P2 **", cycle: "200, 300", pairs: 400, concentration: "contact local FAS" },
+        { platform: "Illumina NextSeq 2000 P3 **", cycle: "200, 300", pairs: 1200, concentration: "contact local FAS" },
+        { platform: "Illumina NextSeq 2000 P4 **", cycle: "200, 300", pairs: 1800, concentration: "contact local FAS" },
+        { platform: "Illumina NovaSeq 6000 S Prime (Single Lane) **", cycle: "100, 200, 300, 500 ***", pairs: 325, concentration: "180-250pM (XP workflow)" },
+        { platform: "Illumina NovaSeq 6000 S Prime (Single Flow Cell) **", cycle: "100, 200, 300, 500 ***", pairs: 650, concentration: "350-650 pM (standard workflow)" },
+        { platform: "Illumina NovaSeq 6000 S1 (Single Lane) **", cycle: "100, 200, 500 ***", pairs: 650, concentration: "180-250pM (XP workflow)" },
+        { platform: "Illumina NovaSeq 6000 S1 (Single Flow Cell) **", cycle: "100, 200, 300 ***", pairs: 1300, concentration: "350-650 pM (standard workflow)" },
+        { platform: "Illumina NovaSeq 6000 S2 (Single Flow Cell) **", cycle: "100, 200, 300 ***", pairs: 3300, concentration: "350-650 pM (standard workflow)" },
+        { platform: "Illumina NovaSeq 6000 S4 (Single Lane) **", cycle: "200, 300", pairs: 2000, concentration: "180-250pM (XP workflow)" },
+        { platform: "Illumina NovaSeq 6000 S4 (Single Flow Cell) **", cycle: "200, 300", pairs: 8000, concentration: "350-650 pM (standard workflow)" },
+        { platform: "Illumina NovaSeq X/X Plus 1.5B **", cycle: "200, 300", pairs: 1600, concentration: "contact local FAS" },
+        { platform: "Illumina NovaSeq X/X Plus 10B **", cycle: "200, 300", pairs: 10000, concentration: "contact local FAS" },
+        { platform: "Illumina NovaSeq X/X Plus 25B **", cycle: "200, 300", pairs: 26000, concentration: "contact local FAS" },
+        { platform: "Element AVITI High Output", cycle: "300(2x150)", pairs: 1000, concentration: "15-18pM" },
+        { platform: "Element AVITI Medium Output", cycle: "300(2x150)", pairs: 500, concentration: "15-18pM" }
     ];
 
     let filteredRows;
     if (novaSeqCheckbox.checked) {
-        filteredRows = allRows.filter(row => row.platform === "NovaSeq X 10B");
+        filteredRows = allRows.filter(row => row.platform === "NovaSeq 6000 S Prime" || row.platform === "NovaSeq 6000 S1" || row.platform === "NovaSeq 6000 S2" || row.platform === "NovaSeq 6000 S4" || row.platform === "NovaSeq X/X Plus 1.5B" || row.platform === "NovaSeq X/X Plus 10B" || row.platform === "NovaSeq X/X Plus 25B");
+    } else {
+        filteredRows = allRows.filter(row => row.pairs > threshold);
+    }
+    if (avitiCheckbox.checked) {
+        filteredRows = allRows.filter(row => row.platform === "Element AVITI High Output" || row.platform === "Element AVITI Medium Output");
     } else {
         filteredRows = allRows.filter(row => row.pairs > threshold);
     }
@@ -495,7 +513,7 @@ function submit() {
     tableMessage.style.display = "block";
     const novaSeqCheckbox = document.getElementById("novaseq");
     if (novaSeqCheckbox.checked) {
-        tableMessage.innerHTML += `<p>User checked the NovaSeq option. The <b>Correction Factor:</b> for TCR/BCR library pooling is set to 1</p>`;
+        tableMessage.innerHTML += `<p>User intent to use NovaSeq/AVITI. The <b>Correction Factor:</b> for TCR/BCR library pooling is set to 1</p>`;
     }
 
     rowsData.length = 0; // clear the array
@@ -527,8 +545,6 @@ function submit() {
     const totalPhix = (rowsData[0].totalReadPairsForSequencing + phix);
 
     filterTableByValue(totalPhix);
-
-    
 }
 
 

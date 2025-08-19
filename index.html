@@ -13,13 +13,13 @@
         <div class="header-text">
           <h1 class="header-main-title" >Sequencing Calculator</h1>
         <p class="header-title"> For BD Rhapsody&trade; Libraries</p>
-       </div>
+      </div>
       </header>
 
       <main>
         <div class="user-main-input">
           <!-- Quick Instruction section -->
-         
+        
           <details>
             <summary style="padding: 0px 0 5px 10px; font-size: 20px; color:#004593;"><b>Quick Instruction</b></summary>
             <p>
@@ -61,8 +61,8 @@
           <br>
 
           <!-- Sequencing library and recommended length information -->
-           
-           <details>
+          
+          <details>
             <summary style="padding: 0px 0 20px 10px; font-size: 20px;color:#004593;"><b>BD Rhapsody Library Information</b></summary>
             <p>This section will show table for sequencing recommendation with Rhaspsody library, as well as the read structure and reads requirements. Please note this might be different when you are using Beads Version1. Please consult your local FAS for recommendation for Bead Version 1.</p>
 
@@ -218,7 +218,44 @@
                 </tr>
               </table>
               <br><br>
-           </details>
+          </details>
+
+          <!-- AVITI recommendation -->
+            <details>
+            <summary style="padding: 0px 0 5px 10px; font-size: 20px; color:#004593;"><b> AVITI sequencing recommendation </b></summary>
+            <h4>Understanding the Setup: </h4>
+            <p>The setup for AVITI sequencing is similar to the Illumina setup. It's important to follow the specific configurations to achieve accurate and efficient sequencing.</p>
+            <h4>AVITI Setup Configuration: </h4>
+            <ul>
+              <li><b>For ATAC+WTA Libraries: </b> When sequencing ATAC (Assay for Transposase-Accessible Chromatin) and WTA (Whole Transcriptome Amplification) libraries together on the AVITI platform, use the following configuration: 
+              <ul>
+                <li>R1: 50 cycles</li>
+                <li>R2: 50 cycles</li>
+                <li>Index 1: 8 cycles</li>
+                <li>Index 2: 60 cycles</li>
+              </ul> 
+            Our general recommendation is a loading concentration of 12-14 pM. We recommended including 1-3% PhiX. </li><br> 
+            <li><b>For WTA Libraries Only:  </b> If you are sequencing only WTA libraries, the configuration is slightly different: 
+              <ul>
+                <li>R1: 51 cycles</li>
+                <li>R2: 71 cycles</li>
+                <li>Index 1: 8 cycles</li>
+                <li>Index 2: 60 cycles</li>
+              </ul>
+            Our general recommendation is a loading concentration of 10-14 pM. We recommended including 1-3% PhiX.  </li>
+            </ul>
+            <p>By following these configurations, you can ensure that your sequencing runs smoothly and yields high-quality data. 
+              If you have any questions or need further assistance, please don't hesitate to reach out to our support team. </p>
+          </details><br>
+
+          <!-- Sample Sheet -->
+            <details>
+            <summary style="padding: 0px 0 5px 10px; font-size: 20px; color:#004593;"><b> Sample Sheet Specifications </b></summary>
+            <img src="sampleSheet.png" width="50%">
+
+          </details>
+
+          <br>
         </div>
 
         <div class="user-main-input">
@@ -238,11 +275,20 @@
           </div>
             <br>
             <input type="checkbox" class="input-box" id="novaseq" onclick="showNovaseqMessage()">
-            <label for="novaseq">I am planning to use NovaSeqX sequencer</label><br>        
+            <label for="novaseq">I am planning to use NovaSeqX sequencer</label> <br>
+
+            <input type="checkbox" class="input-box" id="aviti" onclick="showAvitiMessage()">
+            <label for="aviti">I am planning to use AVITI sequencer</label><br>      
 
             <div id="novaseqMessage" style="display:none;">
               <p style="font-size:15px;color:darkred;"><ul>
-                <li>please contact Illumina support or your <a href="mailto:emea_scmo_support@bd.com">local FAS</a> for the best index combination strategy and recommendation. </li>
+                <li>Please contact Illumina support or your <a href="mailto:emea_scmo_support@bd.com">local FAS</a> for the best index combination strategy and recommendation. </li>
+                <li>Enabling this box would affect the library pooling for TCR/BCR assays calculation.</li>
+              </ul> </p>
+            </div>
+            <div id="avitiMessage" style="display:none;">
+              <p style="font-size:15px;color:darkred;"><ul>
+                <li>Please refer to AVITI sequencing recommendation above.</li>
                 <li>Enabling this box would affect the library pooling for TCR/BCR assays calculation.</li>
               </ul> </p>
             </div>
@@ -250,15 +296,22 @@
             <button onclick="showSections()" class="primary-button">Submit</button>
           </div>
         </div>
-       
+      
           <div class="submitInfoDisplay" id="mainFormSubmitMessage" style="display:none">
             <p><b>User Info Submitted:</b> <br></p>
           </div>
           
           <div id="tableContainer" class="user-main-input"  style="display: none;">
-            <p><b>Please consult your sequencing provider for the Final Library Concentration and Volume needed to send for sequencing. Use the details as input below.</b></p>
+            <div style="background-color: ghostwhite; margin-bottom: 10px; padding: 20px; border-radius: 5px;">
+            <p ><b>!! Please read carefully !!</b>
+              <ul>
+                <li>Consult your sequencing provider for the required final library concentration and volume.</li>
+                <li>ATAC libraries cannot be pooled with other libraries on Illumina sequencers.</li>
+                <li>On AVITI sequencers, ATAC libraries can be pooled with SMK and WTA. Contact your local FAS for details.</li>
+                <li>Avoid pooling greater than 60% total BD AbSeq or OMICS-One protein panel in final sequencing pool as it may impact sequencing quality of Targeted mRNA libraries.</li>
+              </ul></p></div>
             <div class="form-group">
-             
+            
             <label for="finalLibConc">Final library Concentration (nM):</label>
             <input type="number" id="finalLibConc" class="input-field" placeholder="Pooled library concentration">
             <span style="font-size:15px;color:darkred;" class="input-details"><b>Required</b>: In general: 4 nM</span>
@@ -318,7 +371,7 @@
                 </thead>
                   <tbody id="userInputRows"></tbody>
             </table>
-       
+      
 
         <table id="libraryDilutionTable">
           <caption>Library Dilution and Pooling Volume</caption>
@@ -353,25 +406,31 @@
             </thead>
             <tbody id="recommendationRows"/>
           </table>
-          <p>NovaSeq 100 cycle kit (v1.0 or v1.5) can be used. The 100-cycle kit contains enough reagents for up to 130 cycles.</p>
+          <p><strong>Note:</strong>
+            <ul>
+              <li>** These Illumina sequencers use the reverse complement workflow for the i5, which may not be compatible with WTA library if index 2 is sequenced at 60 cycles, and may cause reduction in sequencing quality or even failure. Please contact your local FAS for more information. </li>
+              <li>***NovaSeq 100 cycle kit (v1.0 or v1.5) can be used. The 100-cycle kit contains enough reagents for up to 130 cycles.</li>
+              
+            </ul></p>
 
-
-
-          <button class="primary-button" onclick="copySectionsAsHTML(['resultsContainer','recommendationContainer'])">Copy Results and Paste to Excel File</button>
+          
+          <button class="primary-button" onclick="copySectionsAsHTML(['resultsContainer','recommendationContainer'])">Copy Your Results and Paste to Excel File</button>
         </div>
-
+        <div class="user-main-input">
+<h3> Please rate this app (It take less than a minute!) </h3>
+<iframe width="100%" height="480px" src="https://forms.office.com/Pages/ResponsePage.aspx?id=fObDlC2eAEimt2Ndl4ghZdbP3rXs1MlBqgcjSqm_1-VUMzA4UUhZQ0ZBMFk3SUg0OUFBSFRFSUNOSS4u&embed=true" frameborder="0" marginwidth="0" marginheight="0" style="border: none; max-width:100%; max-height:100vh" allowfullscreen webkitallowfullscreen mozallowfullscreen msallowfullscreen> </iframe>
         <script src="script.js" ></script>
+        </div>
       </main>
-
-     
     </div>
+
     <footer>
-      <p style="font-size:10px;">
+      <p style="font-size:14px;">
         Developer: Syabira Yusoff | Bioinformatics Support Engineer <br />
         <a href="mailto:syabira.yusoff@bd.com">syabira.yusoff@bd.com</a><br />
         General Support: Maryam Rezaei | SCM Application Support Associate<br>
         <a href="mailto:maryam.rezaei@bd.com">maryam.rezaei@bd.com</a><br>
-        Project(version) : Sequencing Calculator (Version2.0) | April 2025
+        Sequencing Calculator (Version3.0.0) | August 2025
       </p>
     </footer>
   </body>
